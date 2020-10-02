@@ -17,8 +17,11 @@ namespace ComplainBox.Models
         [Display(Name = "Description")]
         public string AppointmentDescription { get; set; }
 
-        [Display(Name = "Appointment date")]
-        [DataType(DataType.Date)]
+        [Display(Name = "Request Appointment Date")]
+        public DateTime? RequestAppointmentDate { get; set; }
+
+        [Display(Name = "Appointment Date")]
+        //[DataType(DataType.Date)]
         //[Column(TypeName = "date")]
         public DateTime? AppointmentDate { get; set; }
 

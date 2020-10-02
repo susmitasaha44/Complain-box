@@ -22,11 +22,11 @@
                 <input asp-for="AppointmentDescription" class="form-control" />
                 <span asp-validation-for="AppointmentDescription" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="AppointmentDate" class="control-label"></label>
-            <input asp-for="AppointmentDate" class="form-control" />
-            <span asp-validation-for="AppointmentDate" class="text-danger"></span>
-        </div>*@
+            <div class="form-group">
+                <label asp-for="RequestAppointmentDate" class="control-label"></label>
+                <input asp-for="RequestAppointmentDate" class="form-control" />
+                <span asp-validation-for="RequestAppointmentDate" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Status" />
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">

@@ -17,6 +17,12 @@
                 @Html.DisplayNameFor(model => model.AppointmentDescription)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.RequestAppointmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppointmentDate)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.UserAccount.Name)
             </th>
             <th>
@@ -35,6 +41,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AppointmentDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestAppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserAccount.Name)

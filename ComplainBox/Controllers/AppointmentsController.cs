@@ -76,7 +76,7 @@ namespace ComplainBox.Controllers
         // POST: Appointments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentTitle,AppointmentDescription,AppointmentDate,Status,UserId")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentTitle,AppointmentDescription,RequestAppointmentDate,Status,UserId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
