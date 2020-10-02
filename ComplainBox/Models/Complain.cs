@@ -16,8 +16,6 @@ namespace ComplainBox.Models
         public string Name { get; set; }
 
         [Display(Name = "Complain date")]
-        [DataType(DataType.Date)]
-        //[Column(TypeName = "date")]
         public DateTime? ComplainDate { get; set; }
 
         [Display(Name = "Complain Title")]
@@ -27,8 +25,6 @@ namespace ComplainBox.Models
         public string ComplainDescription { get; set; }
 
         [Display(Name = "Deadline")]
-        [DataType(DataType.Date)]
-        [Column(TypeName = "date")]
         public DateTime? Deadline { get; set; }
 
         public string Status { get; set; }
@@ -37,5 +33,8 @@ namespace ComplainBox.Models
         public int UserId { get; set; }
 
         public virtual UserAccount UserAccount { get; set; }
+
+        [NotMapped]
+        public int RemainHour { get; set; }
     }
 }

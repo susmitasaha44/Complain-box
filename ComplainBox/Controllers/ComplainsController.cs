@@ -303,7 +303,22 @@ namespace ComplainBox.Controllers
             }
             
             string check = "Pending";
-            var data = _context.complains.FromSql("SELECT * FROM complains WHERE Status =@p0", check).Include(c=> c.UserAccount).ToList();
+            var data = _context.complains.Where(c => c.Status == check).Select(c => new Complain()
+            {
+
+                UserAccount = c.UserAccount,
+                ComplainDate = c.ComplainDate,
+                ComplainDescription = c.ComplainDescription,
+                ComplainId = c.ComplainId,
+                ComplainTitle = c.ComplainTitle,
+                Deadline = c.Deadline,
+                Name = c.Name,
+                RemainHour = (24 * c.Deadline.Value.Day + c.Deadline.Value.Hour)- (24 * DateTime.Now.Day + DateTime.Now.Hour),
+                Status = c.Status,
+                UserId = c.UserId
+
+            }).ToList();
+            //var data = _context.complains.FromSql("SELECT * FROM complains WHERE Status =@p0", check).Include(c=> c.UserAccount).ToList();
 
             return View(data);
         }
@@ -317,7 +332,7 @@ namespace ComplainBox.Controllers
             }
 
             string check = "Pending";
-            var data = _context.complains.FromSql("SELECT * FROM complains WHERE Status =@p0", check).Where(d => d.Deadline == DateTime.Today).Include(c => c.UserAccount).ToList();
+            var data = _context.complains.FromSql("SELECT * FROM complains WHERE Status =@p0", check).Where(d => d.Deadline.Value.Date == DateTime.Now.Date).Include(c => c.UserAccount).ToList();
 
             return View(data);
         }
@@ -357,6 +372,12 @@ namespace ComplainBox.Controllers
         private bool ComplainExists(int id)
         {
             return _context.complains.Any(e => e.ComplainId == id);
+        }
+        [HttpPost]
+        public async Task<ActionResult> GetDeadLine(int ComplainID)
+        {
+            var result = await _context.complains.FirstOrDefaultAsync(p => p.ComplainId == ComplainID);
+            return Json(new { data = result });
         }
     }
 }

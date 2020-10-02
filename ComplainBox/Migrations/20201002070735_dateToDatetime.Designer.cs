@@ -4,14 +4,16 @@ using ComplainBox.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComplainBox.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201002070735_dateToDatetime")]
+    partial class dateToDatetime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,13 +50,15 @@ namespace ComplainBox.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("ComplainDate");
+                    b.Property<DateTime?>("ComplainDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ComplainDescription");
 
                     b.Property<string>("ComplainTitle");
 
-                    b.Property<DateTime?>("Deadline");
+                    b.Property<DateTime?>("Deadline")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name");
 

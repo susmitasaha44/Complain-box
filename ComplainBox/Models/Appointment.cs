@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
 using System.Threading.Tasks;
 
 namespace ComplainBox.Models
@@ -13,7 +14,6 @@ namespace ComplainBox.Models
 
         [Display(Name = "Appointment Title")]
         public string AppointmentTitle { get; set; }
-
         [Display(Name = "Description")]
         public string AppointmentDescription { get; set; }
 

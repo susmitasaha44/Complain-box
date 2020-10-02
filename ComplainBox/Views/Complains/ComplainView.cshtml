@@ -3,14 +3,17 @@
 @{
     ViewData["Title"] = "Complain";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
 }
 
 <h3>New Complain</h3>
 <hr />
 
+
 <table class="table">
     <thead>
         <tr>
+            <td></td>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -20,16 +23,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.ComplainDescription)
             </th>
-           
+
             <th>
                 Complainer
             </th>
-            <th></th>
+            <th>Deadline</th>
+            <th>Hour Remainig </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
+            <td><input type="hidden" class="deadline" value="@item.ComplainId" /></td>
             <td>
 
                 @Html.DisplayFor(modelItem => item.Name)
@@ -44,11 +50,106 @@
                 @Html.DisplayFor(modelItem => item.UserAccount.Name)
             </td>
             <td>
+                @if (item.RemainHour <= 0)
+                {
+                    <label style="background-color:pink" id="deadline">@item.Deadline</label>
+
+                }
+                else if (item.RemainHour <= 4 && item.RemainHour >0)
+                {
+                    <label style="background-color:yellow" id="deadline">@item.Deadline</label>
+
+                }
+                else
+                {
+                    <label id="deadline" onclick="GetDeadLine(@item.Deadline)">@item.Deadline</label>
+
+                }
+
+                @*@Html.DisplayFor(modelItem => item.Deadline)*@
+            </td>
+            <td>
+                @if (item.RemainHour >= 1)
+                {
+                    @Html.DisplayFor(modelItem => item.RemainHour)
+                }
+                else
+                {
+                   <label>Expired</label>
+
+                }
+            </td>
+            <td>
                 <a asp-action="Approve" asp-route-id="@item.ComplainId" class="btn btn-success">Approve</a>
 
                 <a asp-action="Rejected" asp-route-id="@item.ComplainId" class="btn btn-warning">Reject</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+        var datetime = null;
+        var id = $('.deadline').val();
+        console.log(id, "DateTime")
+        
+        // Update the count down every 1 second
+        function GetDeadLine() {
+            $.ajax(
+                {
+                    type: 'POST',
+                    dataType: 'JSON',
+                    url: '/Complains/GetDeadLine',
+                    data: { ComplainID: id },
+                    success:
+                        function (response) {
+                            console.log(response);
+                            countDownDate = response.data.deadline;
+                            console.log(countDownDate, "SetCounterTime");
+                            SetTimer(countDownDate);
+                            // Generate HTML table.
+                            //convertJsonToHtmlTable(JSON.parse(response), $("#TableId"));
+                        },
+                    error:
+                        function (response) {
+                            alert("Error: " + response);
+                        }
+                })
+        }
+        function SetTimer() {
+
+            var time = new Date(count).getTime();
+            var x = setInterval(function () {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = time - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                //document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+                //    + minutes + "m " + seconds + "s ";
+                var time= days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+                alert(time)
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("timer").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+    </script>
+}
